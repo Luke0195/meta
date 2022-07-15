@@ -7,20 +7,22 @@ import './styles.css'
 import {BASE_URL} from '../../services/api'
 import { Sale } from '../../models/sale'
 import { formatBRLCoin,notEmptyStringOrDefault,notNumberOrDefault } from '../../utils/Formatters'
+import Loading from '../Loading'
 const SalesCard = () =>{
   //Macete para criar uma data de X dias atrás:
   const min = new Date(new Date().setDate(new Date().getDate() - 365));
   const max = new Date();
 
-  const [minDate, setMinDate] = React.useState(min);
-  const [maxDate, setMaxDate] = React.useState(max);
+  const [minDate, setMinDate] = React.useState<Date>(min);
+  const [maxDate, setMaxDate] = React.useState<Date>(max);
+  const [loading, setLoading] = React.useState<boolean>(true)
   const [data, setData] = React.useState<Sale[]>([]);
 
 
   useEffect(() => {
     const dayMin = minDate.toISOString().slice(0, 10)
     const dayMax = maxDate.toISOString().slice(0, 10)
-
+    setLoading(true)
     axios.get(`${BASE_URL}/sales?minDate=${dayMin}&maxDate=${dayMax}`)
     .then(response => {
     const { content } = response.data
@@ -31,6 +33,7 @@ const SalesCard = () =>{
   },[minDate, maxDate])
 
   return(
+   <React.Fragment>
         <div className="dsmeta-card">
             <h2 className="dsmeta-sales-title">Vendas</h2>
             <div>
@@ -56,6 +59,7 @@ const SalesCard = () =>{
             </div>
 
             <div>
+
               <table className="dsmeta-sales-table">
                 <thead>
                   <tr>
@@ -80,7 +84,7 @@ const SalesCard = () =>{
                     <td>
                       <div className="dsmeta-red-btn-container">
                         <div className="dsmeta-red-btn">
-                          <NotificationButton/>
+                          <NotificationButton id={item.id}/>
                         </div>
                       </div>
                     </td>
@@ -93,7 +97,7 @@ const SalesCard = () =>{
               </table>
             </div>
         </div>
-
+        </React.Fragment>
   )
 }
 
