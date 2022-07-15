@@ -24,6 +24,8 @@
 .dsmeta-form-control-container {
   margin-bottom: 16px;
   max-width: 300px;
+  display:flex;
+  align-items:center;
 }
 
 .dsmeta-form-control {

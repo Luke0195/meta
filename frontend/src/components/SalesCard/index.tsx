@@ -4,6 +4,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import NotificationButton from '../NotificationButton';
 import './styles.css'
+import {BASE_URL} from '../../services/api'
+import { Sale } from '../../models/sale'
 const SalesCard = () =>{
   //Macete para criar uma data de X dias atrás:
   const min = new Date(new Date().setDate(new Date().getDate() - 365));
@@ -11,12 +13,12 @@ const SalesCard = () =>{
 
   const [minDate, setMinDate] = React.useState(min);
   const [maxDate, setMaxDate] = React.useState(max);
-  const [data, setData] = React.useState([]);
+  const [data, setData] = React.useState<Sale[]>([]);
   useEffect(() => {
-    axios.get('http://localhost:8080/sales')
+    axios.get(`${BASE_URL}/sales`)
     .then(response => {
     const { content } = response.data
-    console.log(content)
+    setData(content)
     }).catch(error =>{
       console.log('Deu Error')
     })
@@ -61,51 +63,25 @@ const SalesCard = () =>{
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td className="show992">#341</td>
-                    <td className="show576">08/07/2022</td>
-                    <td>Anakin</td>
-                    <td className="show992">15</td>
-                    <td className="show992">11</td>
-                    <td>R$ 55300.00</td>
-                    <td>
-                      <div className="dsmeta-red-btn-container">
-                        <div className="dsmeta-red-btn">
-                          <NotificationButton/>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="show992">#341</td>
-                    <td className="show576">08/07/2022</td>
-                    <td>Anakin</td>
-                    <td className="show992">15</td>
-                    <td className="show992">11</td>
-                    <td>R$ 55300.00</td>
-                    <td>
-                      <div className="dsmeta-red-btn-container">
-                        <div className="dsmeta-red-btn">
-                          <NotificationButton/>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="show992">#341</td>
-                    <td className="show576">08/07/2022</td>
-                    <td>Anakin</td>
-                    <td className="show992">15</td>
-                    <td className="show992">11</td>
-                    <td>R$ 55300.00</td>
-                    <td>
-                      <div className="dsmeta-red-btn-container">
-                        <div className="dsmeta-red-btn">
-                          <NotificationButton/>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
+                {data.map((item, index) =>(
+                <tr key={item.id}>
+                <td className="show992">{`#${item.id}`}</td>
+                <td className="show576">{item.date}</td>
+                <td>{item.sellerName}</td>
+                <td className="show992">{item.visited}</td>
+                <td className="show992">{item.deals}</td>
+                <td>R$ {item.amount}</td>
+                <td>
+                  <div className="dsmeta-red-btn-container">
+                    <div className="dsmeta-red-btn">
+                      <NotificationButton/>
+                    </div>
+                  </div>
+                </td>
+                </tr>
+                ))}
+
+
                 </tbody>
 
               </table>
