@@ -8,14 +8,14 @@ import { MainContext } from '../../context/MainContext'
 import { formatBRLCoin,notEmptyStringOrDefault,notNumberOrDefault } from '../../utils/Formatters'
 import Loading from '../Loading'
 const SalesCard = () =>{
-  const { handleLoadData, minDate, maxDate , setMinDate, setMaxDate , data} = useContext(MainContext)
+  const { handleLoadData, minDate, maxDate , setMinDate, setMaxDate , data, loading} = useContext(MainContext)
+  //console.log('Loading',loading)
 
 
   useEffect(() => {
     handleLoadData()
   },[minDate, maxDate])
-  console.log(minDate)
-  console.log(maxDate)
+
   return(
    <React.Fragment>
         <div className="dsmeta-card">
@@ -56,7 +56,8 @@ const SalesCard = () =>{
                     <th>Notificar</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="tbody-container">
+                <Loading isLoading={loading}/>
                 {data.map((item, index) =>(
                   <tr key={item.id}>
                     <td className="show992">{`#${notNumberOrDefault(item.id)}`}</td>
@@ -74,10 +75,7 @@ const SalesCard = () =>{
                     </td>
                   </tr>
                 ))}
-
-
                 </tbody>
-
               </table>
             </div>
         </div>

@@ -52,7 +52,7 @@ interface ComponentProps{
         setMinDate:setMinDate,
         maxDate,
         setMaxDate:setMaxDate,
-        loading:loading,
+        loading,
         setLoading,
         handleLoadData,
         data,
