@@ -6,6 +6,7 @@ import NotificationButton from '../NotificationButton';
 import './styles.css'
 import {BASE_URL} from '../../services/api'
 import { Sale } from '../../models/sale'
+import { formatBRLCoin,notEmptyStringOrDefault,notNumberOrDefault } from '../../utils/Formatters'
 const SalesCard = () =>{
   //Macete para criar uma data de X dias atrás:
   const min = new Date(new Date().setDate(new Date().getDate() - 365));
@@ -64,21 +65,21 @@ const SalesCard = () =>{
                 </thead>
                 <tbody>
                 {data.map((item, index) =>(
-                <tr key={item.id}>
-                <td className="show992">{`#${item.id}`}</td>
-                <td className="show576">{item.date}</td>
-                <td>{item.sellerName}</td>
-                <td className="show992">{item.visited}</td>
-                <td className="show992">{item.deals}</td>
-                <td>R$ {item.amount}</td>
-                <td>
-                  <div className="dsmeta-red-btn-container">
-                    <div className="dsmeta-red-btn">
-                      <NotificationButton/>
-                    </div>
-                  </div>
-                </td>
-                </tr>
+                  <tr key={item.id}>
+                    <td className="show992">{`#${notNumberOrDefault(item.id)}`}</td>
+                    <td className="show576">{notEmptyStringOrDefault(new Date(item.date).toLocaleDateString())}</td>
+                    <td>{notEmptyStringOrDefault(item.sellerName)}</td>
+                    <td className="show992">{notNumberOrDefault(item.visited)}</td>
+                    <td className="show992">{notNumberOrDefault(item.deals)}</td>
+                    <td>{formatBRLCoin(item.amount)}</td>
+                    <td>
+                      <div className="dsmeta-red-btn-container">
+                        <div className="dsmeta-red-btn">
+                          <NotificationButton/>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
                 ))}
 
 
