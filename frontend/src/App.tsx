@@ -1,8 +1,9 @@
 import React from 'react';
+import { ToastContainer } from 'react-toastify'
 import Header from './components/Header'
-import NotificationButton from './components/NotificationButton'
 import SalesCard from './components/SalesCard'
 import './App.css'
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () =>{
   return(
@@ -15,7 +16,7 @@ const App = () =>{
         </div>
       </section>
       </main>
-
+      <ToastContainer/>
     </React.Fragment>
   )
 }

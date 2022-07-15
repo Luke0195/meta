@@ -1,4 +1,5 @@
 import React from 'react'
+import { toast } from 'react-toastify'
 import axios from 'axios'
 import icon from '../../assets/img/Vector.svg'
 import { BASE_URL } from '../../services/api'
@@ -12,10 +13,10 @@ function NotificationButton(props:Props){
   function handleNotification(id:number){
     axios.get(`${BASE_URL}/sales/${id}/notification`)
     .then(response =>{
-      console.log('Sucesso')
+     toast.success('Sms Enviado com sucesso!')
     })
     .catch(error =>{
-      console.log('Não foi possível enviar a notificação')
+      toast.error('Não foi possível enviar a notifação tente mais tarde!')
     })
   }
 
