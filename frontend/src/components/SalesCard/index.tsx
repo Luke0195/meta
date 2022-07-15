@@ -15,15 +15,20 @@ const SalesCard = () =>{
   const [minDate, setMinDate] = React.useState(min);
   const [maxDate, setMaxDate] = React.useState(max);
   const [data, setData] = React.useState<Sale[]>([]);
+
+
   useEffect(() => {
-    axios.get(`${BASE_URL}/sales`)
+    const dayMin = minDate.toISOString().slice(0, 10)
+    const dayMax = maxDate.toISOString().slice(0, 10)
+
+    axios.get(`${BASE_URL}/sales?minDate=${dayMin}&maxDate=${dayMax}`)
     .then(response => {
     const { content } = response.data
     setData(content)
     }).catch(error =>{
       console.log('Deu Error')
     })
-  },[])
+  },[minDate, maxDate])
 
   return(
         <div className="dsmeta-card">
